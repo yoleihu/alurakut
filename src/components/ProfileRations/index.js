@@ -37,6 +37,7 @@ export const ProfileRelationsBoxWrapper = styled(Box)`
     color: #2e7bb4;
   }
   ul {
+    margin-top: 14px;
     display: grid;
     grid-gap: 8px;
     grid-template-columns: 1fr 1fr 1fr;

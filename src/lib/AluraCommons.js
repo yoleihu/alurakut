@@ -24,7 +24,7 @@ export function AlurakutMenu({ githubUser }) {
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
       <div className="container">
-        <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
+        <AlurakutMenu.Logo src={`https://i.ibb.co/SVNy49g/Orkut.png`} />
 
         <nav style={{ flex: 1 }}>
           {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/comunidades'}].map((menuItem) => (
@@ -55,7 +55,7 @@ export function AlurakutMenu({ githubUser }) {
 
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
+  background-color: #8C52FF;
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -95,7 +95,7 @@ AlurakutMenu.Wrapper = styled.header`
   }
 
   .container {
-    background-color: #308BC5;
+    background-color: #8C52FF;
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -144,7 +144,7 @@ AlurakutMenu.Wrapper = styled.header`
 
     input {
       color: #ffffff;
-      background: #5579A1;
+      background: #60537B;
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
@@ -161,9 +161,10 @@ AlurakutMenu.Wrapper = styled.header`
 `;
 
 AlurakutMenu.Logo = styled.img`
-  background-color: #ffffff;
+  /*background-color: #ffffff;
   padding: 9px 14px;
-  border-radius: 1000px;
+  border-radius: 1000px;*/
+  margin: 0px 15px;
   height: 34px;
 `;
 
@@ -472,7 +473,7 @@ export const AlurakutStyles = css`
     width: 8px;
   }
   *::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #E3DEED; 
   }
   *::-webkit-scrollbar-thumb {
     background: #888; 
