@@ -5,6 +5,7 @@ import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AluraCommons'
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRations'
 
+//Pega o array de dados da api do github
 function ProfileSidebar(properties) {
   return (
     <Box as="aside">
@@ -22,6 +23,29 @@ function ProfileSidebar(properties) {
   )
 }
 
+//cria um box com map com os dados que pegamos da api do git
+function ProfileRelationsBox(propriedades) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smalTitle">
+      {propriedades.title} ({propriedades.items.length})
+      </h2>
+      <ul>
+        {/*seguidores.map((itemAtual) => {
+          return (
+            <li key={itemAtual}>
+              <a href={`https://github.com/${itemAtual}.png`}>
+                <img src={itemAtual.image} />
+                <span>{itemAtual.title}</span>
+              </a>
+            </li>
+          )
+        })*/}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() {
   const usuarioAleatorio = 'yoleihu';
   const [comunidades, setComunidades] = React.useState([{
@@ -36,6 +60,17 @@ export default function Home() {
   'leonrc99', 
   'juunegreiros',
   'rafaballerini'];
+
+  const [seguidores, setSeguidores] = React.useState([]);
+  React.useEffect(function() { //dentro do useEffect para não fazer loop infinito
+    fetch('https://api.github.com/users/yoleihu/followers')
+    .then(function (respostaDoServidor) {
+      return respostaDoServidor.json();
+    })
+    .then(function(respostaCompleta) {
+      setSeguidores(respostaCompleta);
+    })
+   }, [])
 
   return (
     <>
@@ -90,9 +125,12 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+          
+          <ProfileRelationsBox title="Seguidores" items={seguidores}/>
+
           <ProfileRelationsBoxWrapper>
             <h2 className="smalTitle">
-            Comunidades ({comunidades.length})
+              Comunidades ({comunidades.length})
             </h2>
             <ul>
               {comunidades.map((itemAtual) => {
