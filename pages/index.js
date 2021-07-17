@@ -1,10 +1,12 @@
-import styled from 'styled-components'
 import React from 'react';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AluraCommons'
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRations'
 
+//SIDEBAR
 function ProfileSidebar(properties) {
   return (
     <Box as="aside">
@@ -22,31 +24,34 @@ function ProfileSidebar(properties) {
   )
 }
 
-//cria um box com map com os dados que pegamos da api do git
+// cria um box com map com os dados que pegamos da api do git
 function ProfileRelationsBox(propriedades) {
   return (
     <ProfileRelationsBoxWrapper>
       <h2 className="smallTitle">
-      {propriedades.title} ({propriedades.items.length})
+        {propriedades.title} ({propriedades.items.length})
       </h2>
       <ul>
-        {/*seguidores.map((itemAtual) => {
-          return (
-            <li key={itemAtual}>
-              <a href={`https://github.com/${itemAtual}.png`}>
-                <img src={itemAtual.image} />
-                <span>{itemAtual.title}</span>
-              </a>
-            </li>
-          )
-        })*/}
-      </ul>
+      {propriedades.items.map((itemAtual, index)=>{
+        return(
+          <li key={index}>
+            <a href={`https://github.com/${itemAtual.login}`}>
+              <img src={`https://github.com/${itemAtual.login}.png`}></img>
+              <span>{itemAtual.login}</span>
+            </a>
+          </li>
+
+        )
+
+      })
+      }
+    </ul>
     </ProfileRelationsBoxWrapper>
   )
 }
 
-export default function Home() {
-  const usuarioAleatorio = 'yoleihu';
+export default function Home(props) {
+  const usuarioAleatorio = props.githubUser;
   //const githubUser = "yoleihu";
   const [comunidades, setComunidades] = React.useState([]);
   //const comunidades = ['Alurakut'] ;
@@ -58,8 +63,10 @@ export default function Home() {
   'rafaballerini'];
 
   const [seguidores, setSeguidores] = React.useState([]);
+
   //Pega o array de dados da api do github
-  React.useEffect(function() { //dentro do useEffect para não fazer loop infinito
+  React.useEffect(function() { 
+    //dentro do useEffect para não fazer loop infinito
     //GET
     fetch('https://api.github.com/users/yoleihu/followers')
     .then(function (respostaDoServidor) {
@@ -69,7 +76,7 @@ export default function Home() {
       setSeguidores(respostaCompleta);
     })
 
-    //api GraphQL
+    //api GraphQL (back para criar comunidades)
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -95,18 +102,10 @@ export default function Home() {
 
    }, [])
 
-
-  //contagem de seguidores
-  function handleCriaSeguidores(e) {
-    e.preventDefault();
-    setSeguidores();
-  }
-
-
   return (
     <>
       <AlurakutMenu />
-      <MainGrid>
+      <MainGrid> 
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
           <ProfileSidebar githubUser={usuarioAleatorio}/>
         </div>
@@ -173,27 +172,11 @@ export default function Home() {
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
           
-        <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Seguidores ({seguidores.length})
-            </h2>
-
-            <ul>
-              {seguidores.map((itemAtual) => {
-                return (
-                  <li key={itemAtual.id}>
-                    <a href={`/users/${itemAtual.login}`}>
-                      <img src={`https://github.com/${itemAtual.login}.png`} />
-                      <span>{itemAtual.login}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
 
           <ProfileRelationsBoxWrapper>
-            <h2 className="smalTitle">
+
+            <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
             <ul>
@@ -211,7 +194,7 @@ export default function Home() {
           </ProfileRelationsBoxWrapper>
 
           <ProfileRelationsBoxWrapper>
-            <h2 className="smalTitle">
+            <h2 className="smallTitle">
             Pessoas Favoritas ({pessoasFavoritas.length})
             </h2>
             <ul>
@@ -231,4 +214,31 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN;
+  const { isAuthenticated } = await fetch("https://alurakut-yoleihu.vercel.app/api/auth", {
+    headers: {
+        Authorization: token
+      }
+  })
+  .then((resposta) => resposta.json())
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
+  }
+
+  const { githubUser } = jwt.decode(token);
+  return {
+    props: {
+      githubUser
+    }, // will be passed to the page component as props
+  }
 }
