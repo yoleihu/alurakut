@@ -32,7 +32,7 @@ function ProfileRelationsBox(propriedades) {
         {propriedades.title} ({propriedades.items.length})
       </h2>
       <ul>
-      {propriedades.items.map((itemAtual, index)=>{
+      {propriedades.items.slice(0,6).map((itemAtual, index)=>{
         return(
           <li key={index}>
             <a href={`https://github.com/${itemAtual.login}`}>
@@ -168,8 +168,11 @@ export default function Home(props) {
               </button>
             </form>
           </Box>
+
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
 
           <ProfileRelationsBoxWrapper>
 
@@ -195,7 +198,7 @@ export default function Home(props) {
             Pessoas Favoritas ({pessoasFavoritas.length})
             </h2>
             <ul>
-              {pessoasFavoritas.map((itemAtual) => {
+              {pessoasFavoritas.slice(0,6).map((itemAtual) => {
                 return (
                   <li key={itemAtual}>
                     <a href={`/users/${itemAtual}`}>
@@ -208,7 +211,6 @@ export default function Home(props) {
             </ul>
           </ProfileRelationsBoxWrapper>
 
-          <ProfileRelationsBox title="Seguidores" items={seguidores} />
 
         </div>
       </MainGrid>
