@@ -37,11 +37,12 @@ export const ProfileRelationsBoxWrapper = styled(Box)`
     color: #2e7bb4;
   }
   ul {
+
     margin-top: 14px;
     display: grid;
     grid-gap: 8px;
     grid-template-columns: 1fr 1fr 1fr;
-    max-height: 220px;
+    /*max-height: 220px;*/
     list-style: none;
   }
   img {
@@ -65,7 +66,7 @@ export const ProfileRelationsBoxWrapper = styled(Box)`
       bottom: 10px;
       z-index: 2;
       padding: 0 4px;
-      overflow: hidden;
+      /*overflow: hidden;*/
       text-overflow: ellipsis;
       width: 100%;
       display: -webkit-box;

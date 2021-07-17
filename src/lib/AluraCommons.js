@@ -24,7 +24,7 @@ export function AlurakutMenu({ githubUser }) {
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
       <div className="container">
-        <AlurakutMenu.Logo src={`https://i.ibb.co/SVNy49g/Orkut.png`} />
+        <AlurakutMenu.Logo src={`https://i.ibb.co/kcVKJZj/artkut.png`} />
 
         <nav style={{ flex: 1 }}>
           {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/comunidades'}].map((menuItem) => (
@@ -55,7 +55,7 @@ export function AlurakutMenu({ githubUser }) {
 
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #8C52FF;
+  background-color: #FFD481;
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -95,7 +95,7 @@ AlurakutMenu.Wrapper = styled.header`
   }
 
   .container {
-    background-color: #8C52FF;
+    background-color: #FFD481;
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -123,13 +123,14 @@ AlurakutMenu.Wrapper = styled.header`
       }
       a {
         font-size: 12px;
-        color: white;
+        font-family: Palatino, serif;
+        color: black;
         padding: 10px 16px;
         position: relative;
         text-decoration: none;
         &:after {
           content: " ";
-          background-color: #5292C1;
+          background-color: #9e6100;
           display: block;
           position: absolute;
           width: 1px;
@@ -144,7 +145,7 @@ AlurakutMenu.Wrapper = styled.header`
 
     input {
       color: #ffffff;
-      background: #60537B;
+      background: #a85700;
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
@@ -329,13 +330,13 @@ OrkutNostalgicIconSet.List = styled.ul`
 const AlurakutLoginScreen = css`
   :root {
     --backgroundPrimary: #D9E6F6;
-    --backgroundSecondary: #F1F9FE;
+    --backgroundSecondary: #fff9d9;
     --backgroundTertiary: #FFFFFF;
-    --backgroundQuarternary: #BBCDE8;
-    --colorPrimary: #2E7BB4;
+    --backgroundQuarternary: #fff9d9;
+    --colorPrimary: #a85700;
     --colorSecondary: #388BB0;
     --colorTertiary: #2F4A71;
-    --colorQuarternary: #D81D99;
+    --colorQuarternary: #a85700;
     --textPrimaryColor: #333333;
     --textSecondaryColor: #FFFFFF;
     --textTertiaryColor: #5A5A5A;
@@ -344,6 +345,9 @@ const AlurakutLoginScreen = css`
   }
 
   .loginScreen {
+    margin-top: 70px;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
     padding: 16px;
     max-width: 1110px;
     display: grid;
@@ -473,14 +477,14 @@ export const AlurakutStyles = css`
     width: 8px;
   }
   *::-webkit-scrollbar-track {
-    background: #E3DEED; 
+    background: #F4EBDA; 
   }
   *::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #ECF8FF; 
     border-radius: 10px;
   }
   *::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #8CC1C8; 
   }
 
   a,

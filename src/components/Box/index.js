@@ -60,7 +60,7 @@ const Box = styled.div`
     margin-top:14px;
     color: #FFFFFF;
     border-radius: 10000px;
-    background-color: #60537B;
+    background-color: #a85700;
   }
 `; 
 

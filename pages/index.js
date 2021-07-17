@@ -40,9 +40,7 @@ function ProfileRelationsBox(propriedades) {
               <span>{itemAtual.login}</span>
             </a>
           </li>
-
         )
-
       })
       }
     </ul>
@@ -66,9 +64,10 @@ export default function Home(props) {
 
   //Pega o array de dados da api do github
   React.useEffect(function() { 
+    const linkUsuario = "https://api.github.com/users/" + usuarioAleatorio + "/followers";
     //dentro do useEffect para não fazer loop infinito
     //GET
-    fetch('https://api.github.com/users/yoleihu/followers')
+    fetch(linkUsuario)
     .then(function (respostaDoServidor) {
       return respostaDoServidor.json();
     })
@@ -171,8 +170,6 @@ export default function Home(props) {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          
-          <ProfileRelationsBox title="Seguidores" items={seguidores} />
 
           <ProfileRelationsBoxWrapper>
 
@@ -210,6 +207,9 @@ export default function Home(props) {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
+
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
+
         </div>
       </MainGrid>
     </>
