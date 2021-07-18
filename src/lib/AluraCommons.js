@@ -195,7 +195,7 @@ export function AlurakutProfileSidebarMenuDefault() {
   return (
     <AlurakutProfileSidebarMenuDefault.Wrapper>
       <nav>
-        <a href="/">
+        <a href="https://github.com/yoleihu">
           <img src={`${BASE_URL}/icons/user.svg`} />
             Perfil
           </a>

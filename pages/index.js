@@ -52,6 +52,7 @@ export default function Home(props) {
   const usuarioAleatorio = props.githubUser;
   //const githubUser = "yoleihu";
   const [comunidades, setComunidades] = React.useState([]);
+  const [depoimentos, setDepoimentos] = React.useState([]);
   //const comunidades = ['Alurakut'] ;
   const pessoasFavoritas = [ 
   'omariosouto', 
@@ -79,7 +80,7 @@ export default function Home(props) {
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
-        'Authorization': '870eff36c8455b891ab8710ef097ad',
+        'Authorization': '51df4a4e505706a411ce29ba92f472',
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
@@ -99,7 +100,32 @@ export default function Home(props) {
       setComunidades(comunidadesVindasDoDato)
     })
 
-   }, [])
+  }, [])
+
+    //api GraphQL (back para criar depoimentos)
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '51df4a4e505706a411ce29ba92f472',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ "query": `query {
+        allBriefs{
+          id 
+          title
+          texto  
+        }
+      }` })
+    })
+    .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+    .then((respostaCompleta) => {
+      const depoimentosVindasDoDato = respostaCompleta.data.allBriefs;
+      console.log(depoimentosVindasDoDato)
+      setDepoimentos(depoimentosVindasDoDato)
+    })
+
+  
 
   return (
     <>
@@ -118,7 +144,12 @@ export default function Home(props) {
           </Box>
 
           <Box>
-            <h2 className="subTitle"> Oque você deseja fazer?</h2>
+            <h2 className="subTitle"> O que você deseja fazer?</h2>
+
+            <h2 className="Titulinho">
+              Crie uma comunidade:
+            </h2>
+
             <form onSubmit={function handleCriaComunidade(e) {
               e.preventDefault();
               const dadosDoForm = new FormData(e.target);
@@ -167,6 +198,81 @@ export default function Home(props) {
                 Criar comunidade
               </button>
             </form>
+          
+          
+            <h2 className="Titulinho">
+              Crie um depoimento:
+            </h2>
+
+            <form onSubmit={function handleCriaDepoimento(e) {
+              e.preventDefault();
+              const dadosDoForm = new FormData(e.target);
+
+              console.log('Campo: ', dadosDoForm.get('title'));
+              console.log('Campo: ', dadosDoForm.get('texto'));
+              
+              const depoimento = {
+                title: dadosDoForm.get('title'),
+                texto: dadosDoForm.get('texto'),
+              }
+
+              fetch('/api/depoimentos', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(depoimento)
+              })
+              .then(async (response) => {
+                const dados = await response.json();
+                console.log(dados.registroCriado);
+                const depoimento = dados.registroCriado;
+                const depoimentosAtualizadas = [...depoimentos, depoimento];
+                setDepoimentos(depoimentosAtualizadas)
+              })
+
+            }}>
+            <div>
+                <input 
+                  placeholder="Insira o título" 
+                  name="title"
+                  arial-label="Insira o título"
+                  type="text"
+                />
+              </div>
+              <div>
+                <textarea
+                  placeholder="Escreva seu depoimento" 
+                  name="texto"
+                  arial-label="Escreva seu depoimento"
+                  type="text" 
+                />
+              </div>
+              <button>
+                Criar depoimento
+              </button>
+            </form>
+
+
+          </Box>
+
+
+          <Box>
+          <h2 className="smallTitle">
+              Depoimentos ({depoimentos.length})
+            </h2>
+            <ol>
+              {depoimentos.map((itemAtual) => {
+                return (
+                  <li className="caixinha" key={itemAtual.id}>
+                    <p href={`/briefs/${itemAtual.id}`}>
+                      <h4 className="titleDep"> {itemAtual.title} </h4>
+                      <pre className="textDep"> {itemAtual.texto} </pre>
+                    </p>
+                  </li>
+                )
+              })}
+            </ol>
           </Box>
 
         </div>
@@ -175,7 +281,6 @@ export default function Home(props) {
           <ProfileRelationsBox title="Seguidores" items={seguidores} />
 
           <ProfileRelationsBoxWrapper>
-
             <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
