@@ -181,9 +181,9 @@ export default function Home(props) {
             }}>
             <div>
                 <input 
-                  placeholder="Qual vai ser o nome dasua comunidade?" 
+                  placeholder="Qual vai ser o nome da sua comunidade?" 
                   name="title"
-                  arial-label="Qual vai ser o nome dasua comunidade?"
+                  arial-label="Qual vai ser o nome da sua comunidade?"
                   type="text"
                 />
               </div>
