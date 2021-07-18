@@ -50,7 +50,7 @@ export default function LoginScreen() {
                 }}
             />
             {githubUser.length === 0
-                ? 'Preencha o campo'
+                ? ''
                 : ''
             }
             <button type="submit">
